@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { AlertController, LoadingController } from '@ionic/angular';
 import { saveimage } from 'save-image-plugin-demo';
 
 declare var cordova: any;
@@ -10,7 +10,17 @@ declare var cordova: any;
 })
 export class HomePage {
 
-  constructor(private alertController: AlertController) {}
+  loader: any;
+
+  constructor(private alertController: AlertController, private loadingCtrl: LoadingController) {}
+
+  async ngOnInit() {
+    this.loader = await this.loadingCtrl.create({
+      message: 'Downloading...',
+      spinner: 'circles',
+    });
+  }
+
 
   shareClick() {
     console.log('cordova.plugins: ', cordova.plugins);
@@ -27,7 +37,6 @@ export class HomePage {
 
   clickToSaveImage() {
     saveimage.saveBase64ToGallery({ base64String: this.base64, folderName: 'DemoPlugin'}).then((data: any) => {
-      console.log('called plugin data: ', data);
       if (data.isImageSaved) {
         this.presentAlert('Success')
       } else {
@@ -48,4 +57,15 @@ export class HomePage {
     let result = await alert.onDidDismiss();
   }
 
+  downloadFileFromURL() {
+    this.loader.present();
+    saveimage.downloadFileFromURL({ url: 'https://file-examples.com/storage/fef431be58652d8e49c225d/2017/04/file_example_MP4_1280_10MG.mp4' }).then((data: any) => {
+      if (data.isDownloadComplete) {
+        this.presentAlert('Download Completed')
+      } else {
+        this.presentAlert('Download Failed')
+      }
+      this.loader.dismiss();
+    })
+  }
 }
