@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AlertController, LoadingController } from '@ionic/angular';
 import { saveimage } from 'save-image-plugin-demo';
+import {  CapacitorVideoPlayer } from 'capacitor-video-player';
 
 declare var cordova: any;
 @Component({
@@ -9,19 +10,28 @@ declare var cordova: any;
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-
+  private _videoPlayer: any;
   loader: any;
 
   constructor(private alertController: AlertController, private loadingCtrl: LoadingController) {}
 
   async ngOnInit() {
+    this._videoPlayer = CapacitorVideoPlayer
     this.loader = await this.loadingCtrl.create({
       message: 'Downloading...',
       spinner: 'circles',
     });
   }
 
-
+  async playVideo() {
+    let url = '../../assets/videos/video.mp4'
+    const res: any = await this._videoPlayer.initPlayer({
+      mode: 'fullscreen',
+      url,
+      playerId: 'fullscreen',
+      componentTag: 'slot',
+    });
+  }
   shareClick() {
     console.log('cordova.plugins: ', cordova.plugins);
     cordova.plugins.SingularCordovaSdk.eventWithArgs(

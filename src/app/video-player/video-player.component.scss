@@ -1,0 +1,338 @@
+.video-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  background-color: var(--white);
+  .video {
+    width: 100%;
+    height: auto;
+    video {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .controls button {
+    background: none;
+    outline: none;
+    box-shadow: none;
+    border: none;
+    margin: 0;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+
+    svg {
+      fill: white;
+      stroke: white;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      width: 100%;
+      height: 100%;
+    }
+    &.rewind svg,
+    &.fast-forward svg {
+      stroke: none;
+    }
+    &.ripple {
+      position: relative;
+
+      &:after {
+        content: "";
+        background: rgba(255, 255, 255, 0.3);
+        display: block;
+        position: absolute;
+        border-radius: 50%;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        width: 160px;
+        height: 160px;
+        margin: auto;
+        opacity: 0;
+        transition: all 0.5s;
+      }
+      &:active:after {
+        height: 10px;
+        width: 10px;
+        opacity: 1;
+        transition: 0s;
+      }
+    }
+  }
+
+  .video-reset {
+    background: #00000061;
+    z-index: 1;
+    transition: all 0.3s ease;
+    border-radius: 9999px;
+    .video-reset-btn {
+      border: none;
+      background: #000000d9;
+      border-radius: 9999px;
+      padding: 10px 20px;
+      color: white;
+      font-weight: 700;
+      font-size: 15px;
+      outline: none;
+      user-select: none;
+      cursor: pointer;
+      appearance: none;
+    }
+    .video-reset-btn:hover {
+      background: #000000;
+    }
+  }
+
+  .controls-container {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    min-height: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.9));
+    transition: opacity 0.5s linear;
+    z-index: 2;
+  }
+
+  .time-remaining {
+    margin-left: auto;
+    margin-right: 0.5rem;
+  }
+
+  .progress-controls {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    padding: 8px;
+
+    .time-remaining {
+      margin: 4px;
+      width: 1;
+    }
+
+    .progress-bar {
+      &:focus-visible {
+        border: none;
+        outline: none;
+      }
+      width: 100%;
+      height: 5px;
+      background: rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      position: relative;
+      &.watched-bar,
+      &.playhead {
+        display: inline-block;
+        transition: all 0.2s;
+      }
+
+      .watched-bar {
+        height: 110%;
+        width: 20%;
+        background: white;
+        z-index: 1;
+      }
+
+      .loaded-bar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: rgba(0, 0, 0, 0.4);
+        height: 100%;
+        width: 20%;
+        transition: all 0.2s;
+      }
+
+      .playhead {
+        height: 16px;
+        width: 16px;
+        max-height: 16px;
+        max-width: 16px;
+        border-radius: 50%;
+        background: #fff;
+        z-index: 2;
+        transition: all 0.2s;
+      }
+
+      &:hover {
+        height: 6px;
+
+        .playhead {
+          height: 20px;
+          width: 20px;
+          max-height: 20px;
+          max-width: 20px;
+        }
+      }
+    }
+  }
+
+  .controls {
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    padding: 8px;
+    gap: 0.5rem;
+
+    button {
+      width: 28px;
+      height: 28px;
+      opacity: 0.4;
+      transform: scale(0.9);
+
+      &:hover {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      &.volume svg path{
+        fill: none;
+      }
+    }
+  }
+
+  .video-voice {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: fit-content;
+    margin-right: 0.5rem;
+  }
+  .video-voice .video-voice-btn {
+    border: none;
+    background: transparent;
+    color: white;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    position: relative;
+    cursor: pointer;
+    transition: all 350ms cubic-bezier(0.215, 0.61, 0.355, 1);
+    appearance: none;
+    outline: none;
+    user-select: none;
+  }
+  .video-voice .video-voice-btn:hover {
+    background: rgb(255 255 255 / 8%);
+  }
+  
+  .video-voice .video-voice-btn .video-voice-on {
+    overflow: hidden;
+    position: relative;
+  }
+  .video-voice .video-voice-btn .video-voice-off {
+    overflow: hidden;
+    position: relative;
+    display: none;
+  }
+}
+//loder
+.video-loading {
+  position: absolute;
+}
+.video-loading-spinner {
+  width: 55px;
+  height: 55px;
+  border: 5px solid #ffffff;
+  border-top: 5px solid #9e9e9e;
+  border-radius: 50%;
+}
+
+.video-loading-spinner {
+  -webkit-transition-property: -webkit-transform;
+  -webkit-transition-duration: 1.2s;
+  -webkit-animation-name: rotate;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+
+  -moz-transition-property: -moz-transform;
+  -moz-animation-name: rotate;
+  -moz-animation-duration: 1.2s;
+  -moz-animation-iteration-count: infinite;
+  -moz-animation-timing-function: linear;
+
+  transition-property: transform;
+  animation-name: rotate;
+  animation-duration: 1.2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@-webkit-keyframes rotate {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@-moz-keyframes rotate {
+  from {
+    -moz-transform: rotate(0deg);
+  }
+  to {
+    -moz-transform: rotate(360deg);
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.video-controls-container {
+  background-repeat: no-repeat;
+  background-position: center;
+  position: absolute;
+  background-size: cover;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  // background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 1;
+
+  .video-start-btn {
+    width: 60px;
+    height: 60px;
+    min-width: 60px;
+    min-height: 60px;
+    background: white;
+    opacity: 1;
+    overflow: hidden;
+    border-radius: 50%;
+
+    &:hover {
+      opacity: 1;
+      transform: scale(1.2);
+    }
+  }
+
+  svg {
+    fill: rgb(29, 161, 242) !important;
+    overflow: hidden;
+  }
+}

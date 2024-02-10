@@ -1,0 +1,144 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Video Player</ion-title>
+  </ion-toolbar>
+</ion-header>
+<div #videoContainer class="video-container">
+  <div *ngIf="isLoadingContent" class="video-loading">
+    <div class="video-loading-spinner"></div>
+  </div>
+  <div
+    class="video-controls-container"
+    (dblclick)="playPause()"
+    [style.opacity]="displayControllsOpacity"
+    [style.background-image]="getBackgroundImage()"
+  >
+    <button *ngIf="isShowPlayBtn" (click)="playPause()" class="video-start-btn">
+      <svg
+        width="60"
+        height="60"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 512 512"
+      >
+        <path
+          d="M256,0C114.833,0,0,114.844,0,256s114.833,256,256,256s256-114.844,256-256S397.167,0,256,0z M357.771,264.969
+			l-149.333,96c-1.75,1.135-3.771,1.698-5.771,1.698c-1.75,0-3.521-0.438-5.104-1.302C194.125,359.49,192,355.906,192,352V160
+			c0-3.906,2.125-7.49,5.563-9.365c3.375-1.854,7.604-1.74,10.875,0.396l149.333,96c3.042,1.958,4.896,5.344,4.896,8.969
+			S360.813,263.01,357.771,264.969z"
+        />
+      </svg>
+    </button>
+    <div *ngIf="video.currentTime == video.duration" class="video-reset">
+      <button (click)="playPause()" class="video-reset-btn">Watch again</button>
+    </div>
+  </div>
+  <div class="video">
+    <video
+      #video
+      src="../../assets/videos/video.mp4"
+      type="video/mp4"
+    ></video>
+  </div>
+  <div
+    #controlsContainer
+    class="controls-container"
+    [style.opacity]="displayControllsOpacity"
+  >
+  <div class="progress-controls">
+    <input type="range" class="progress-bar" [(ngModel)]="watchedProgress" (input)="seekTo($event)" min="0" max="100">
+  </div>
+    <div class="controls">
+      <button #playPauseButton class="play-pause" (click)="playPause()">
+        <svg
+          #playButton
+          *ngIf="!isPlaying"
+          class="playing"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+        >
+          <polygon points="5 3 19 12 5 21 5 3"></polygon>
+        </svg>
+        <svg #pauseButton class="paused" *ngIf="isPlaying" viewBox="0 0 24 24">
+          <rect x="6" y="4" width="4" height="16"></rect>
+          <rect x="14" y="4" width="4" height="16"></rect>
+        </svg>
+      </button>
+      <div class="video-views">725.5K views</div>
+      <div class="time-remaining">
+        {{ formatTime(video.currentTime) }}/{{ formatTime(video.duration) }}
+      </div>
+      <div #volumeButton class="video-voice">
+        <button class="video-voice-btn" (click)="toggleMute()">
+          <svg
+            #fullVolumeButton
+            *ngIf="isFullVolume"
+            class="full-volume"
+            viewBox="0 0 24 24"
+          >
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path
+              d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"
+            ></path>
+          </svg>
+          <svg
+            #mutedButton
+            *ngIf="!isFullVolume"
+            class="muted"
+            viewBox="0 0 24 24"
+          >
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <line x1="23" y1="9" x2="17" y2="15"></line>
+            <line x1="17" y1="9" x2="23" y2="15"></line>
+          </svg>
+        </button>
+      </div>
+      <button
+        #fullScreenButton
+        class="full-screen"
+        (click)="toggleFullScreen()"
+      >
+        <svg
+          #maximizeButton
+          [style.display]="isFullScreen ? 'none' : ''"
+          class="maximize"
+          viewBox="0 0 24 24"
+          width="24"
+          height="24"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          fill="none"
+          shape-rendering="geometricPrecision"
+        >
+          <path d="M15 3h6v6"></path>
+          <path d="M9 21H3v-6"></path>
+          <path d="M21 3l-7 7"></path>
+          <path d="M3 21l7-7"></path>
+        </svg>
+        <svg
+          #minimizeButton
+          class="minimize"
+          [style.display]="isFullScreen ? '' : 'none'"
+          viewBox="0 0 24 24"
+          width="24"
+          height="24"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          fill="none"
+          shape-rendering="geometricPrecision"
+        >
+          <path d="M4 14h6v6"></path>
+          <path d="M20 10h-6V4"></path>
+          <path d="M14 10l7-7"></path>
+          <path d="M3 21l7-7"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>

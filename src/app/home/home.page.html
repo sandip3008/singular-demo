@@ -3,5 +3,12 @@
     <ion-button (click)="shareClick()">Share</ion-button>
     <ion-button (click)="clickToSaveImage()">Save Image</ion-button>
     <ion-button (click)="downloadFileFromURL()">Download File From URL</ion-button>
+    <ion-button [routerLink]="['/video-player']" >Play Video Player 1</ion-button>
+    <!-- <ion-button (click)="playVideo()" >Play Video Player 2</ion-button> -->
   </div>
+    <slot>
+      <div id="fullscreen">
+
+      </div>
+    </slot>
 </ion-content>
